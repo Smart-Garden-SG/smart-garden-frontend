@@ -9,7 +9,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build: 
+  build:
     runs-on: ubuntu-latest
 
     strategy:
@@ -29,32 +29,6 @@ jobs:
       - name: Instalar dependências
         run: npm install
 
-<<<<<<< HEAD
-    - name: Fazer build do projeto
-      run: npm run build
-      
-    - name: Upload do build como artefato
-      uses: actions/upload-artifact@v4
-      with:
-        name: react-app-build
-        path: build/
-    
-    - name: Criar Release no GitHub
-      if: startsWith (github.ref,'refs/tags/')
-      id: create_release
-      uses: softprops/action-gh-release@v1
-      with:
-        name: Release ${{ github.ref_name }}
-        tag_name: ${{ github.ref_name }}
-        body: "Release gerada automaticamente para a tag ${{ github.ref_name }}"
-        draft: false
-        prerelease: false
-        files: |
-          build/**/*
-      env:
-        GITHUB_TOKEN: ${{ secrets.TOKEN }}
-# Testando trigger de tags
-=======
       - name: Fazer build do projeto
         run: npm run build
 
@@ -89,4 +63,3 @@ jobs:
           asset_path: build.zip
           asset_name: react-app-build.zip
           asset_content_type: application/zip
->>>>>>> c12431951595aaca57d14476dc6342793ceddc1b
