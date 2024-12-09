@@ -3,7 +3,8 @@ name: React CI
 on:
   push:
     branches: [ "main" ]
-    tags: [ "*" ]  # Gatilho para qualquer tag
+    tags:
+      - '**'  # Captura qualquer tag
   pull_request:
     branches: [ "main" ]
 
@@ -16,37 +17,30 @@ jobs:
         node-version: [20.x]
 
     steps:
-      # 1. Checkout do repositório
       - name: Checkout do repositório
         uses: actions/checkout@v4
 
-      # 2. Configurar Node.js
       - name: Configurar Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
 
-      # 3. Instalar dependências
       - name: Instalar dependências
         run: npm install
 
-      # 4. Fazer build do projeto
       - name: Fazer build do projeto
         run: npm run build
 
-      # 5. Upload do build como artefato
       - name: Upload do build como artefato
         uses: actions/upload-artifact@v4
         with:
           name: react-app-build
           path: build/
 
-      # 6. Listar arquivos no diretório de build (para depuração)
-      - name: Listar arquivos no diretório build
-        run: ls -la build/
+      - name: Debug github.ref
+        run: echo "github.ref = ${{ github.ref }}"
 
-      # 7. Criar Release (se for uma tag)
       - name: Criar Release no GitHub
         if: startsWith(github.ref, 'refs/tags/')
         id: create_release
@@ -59,7 +53,6 @@ jobs:
           draft: false
           prerelease: false
 
-      # 8. Enviar o build para a Release
       - name: Enviar o build para a Release
         if: startsWith(github.ref, 'refs/tags/')
         uses: actions/upload-release-asset@v1
