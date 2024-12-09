@@ -38,9 +38,6 @@ jobs:
       - name: Listar conteúdo da pasta build
         run: ls -la build/
 
-      - name: Verificar diretório atual
-        run: pwd
-
       - name: Compactar o build
         run: zip -r build.zip build/
 
