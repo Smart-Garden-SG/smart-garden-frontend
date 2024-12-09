@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import Sidebar from '../SideBar/Sidebar';
 import TopBar from '../TopBar/TopBar';
@@ -14,38 +14,40 @@ function Events() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
-const fetchEvents = async () => {
-  setIsLoading(true);
-  setError('');
-  try {
-    const devicesResponse = await axios.get('http://localhost:3001/devices');
-    const eventsResponse = await axios.get('http://localhost:3001/events');
+  const fetchEvents = async () => {
+    setIsLoading(true);
+    setError('');
+    try {
+      const devicesResponse = await axios.get('http://localhost:3001/devices');
+      const eventsResponse = await axios.get('http://localhost:3001/events');
 
-    if (devicesResponse.data.success) {
-      setDevices(devicesResponse.data.data);
-      const devicesMap = devicesResponse.data.data.reduce((map, device) => {
-        map[device.id] = device.name;
-        return map;
-      }, {});
+      if (devicesResponse.data.success) {
+        setDevices(devicesResponse.data.data);
+        const devicesMap = devicesResponse.data.data.reduce((map, device) => {
+          map[device.id] = device.name;
+          return map;
+        }, {});
 
-      const eventsWithDeviceName = eventsResponse.data.data.map((event) => ({
-        ...event,
-        deviceName: devicesMap[event.device_id] || 'Dispositivo Desconhecido',
-      }));
+        const eventsWithDeviceName = eventsResponse.data.data.map((event) => ({
+          ...event,
+          deviceName: devicesMap[event.device_id] || 'Dispositivo Desconhecido',
+        }));
 
-      const sortedEvents = eventsWithDeviceName.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+        const sortedEvents = eventsWithDeviceName.sort(
+          (a, b) => new Date(b.created_at) - new Date(a.created_at)
+        );
 
-      setEvents(sortedEvents);
-      setFilteredEvents(sortedEvents);
-    } else {
-      console.error('Erro ao carregar dispositivos');
+        setEvents(sortedEvents);
+        setFilteredEvents(sortedEvents);
+      } else {
+        console.error('Erro ao carregar dispositivos');
+      }
+    } catch (error) {
+      setError('Erro ao buscar eventos. Tente novamente mais tarde.');
+    } finally {
+      setIsLoading(false);
     }
-  } catch (error) {
-    setError('Erro ao buscar eventos. Tente novamente mais tarde.');
-  } finally {
-    setIsLoading(false);
-  }
-};
+  };
 
   const fetchDevices = async () => {
     try {
@@ -60,14 +62,16 @@ const fetchEvents = async () => {
     }
   };
 
-  const fetchPrediction = async () => {
+  const fetchPrediction = useCallback(async () => {
     try {
-      const response = await axios.post('http://localhost:8000/predict?api_key=6d2a222c0a4cb9354b52687ceb0ddf1f');
+      const response = await axios.post(
+        'http://localhost:8000/predict?api_key=6d2a222c0a4cb9354b52687ceb0ddf1f'
+      );
       setPredictedFertilizer(response.data);
     } catch (error) {
       setError('Erro ao buscar predição. Tente novamente.');
     }
-  };
+  }, [setPredictedFertilizer]);
 
   const applyFilters = (deviceId, category) => {
     let filtered = events;
@@ -98,7 +102,7 @@ const fetchEvents = async () => {
   const handleDelete = async (alertMessage) => {
     const confirmDelete = window.confirm(`Você realmente deseja deletar o evento "${alertMessage}"?`);
     if (!confirmDelete) return;
-  
+
     try {
       await axios.delete(`http://localhost:3001/events/${alertMessage}`);
       setEvents(events.filter((event) => event.alertMessage !== alertMessage));
@@ -115,9 +119,9 @@ const fetchEvents = async () => {
       fetchDevices();
     };
     fetchData();
-  }, []);
+  }, [fetchPrediction]);
 
-  return (
+  return(
     <>
       <TopBar />
       <div className="dashboard">
