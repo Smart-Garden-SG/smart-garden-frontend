@@ -15,7 +15,7 @@ import TopBar from "../TopBar/TopBar";
 import Sidebar from "../SideBar/Sidebar";
 import "./Dashboard.css";
 
-function Dashboard() {
+function Dashboard() { 
   const [sensorsData, setSensorsData] = useState(null);
   const [historyData, setHistoryData] = useState([]);
   const [setLastUpdated] = useState(new Date());
