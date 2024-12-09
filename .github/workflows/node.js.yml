@@ -50,3 +50,4 @@ jobs:
           build/**/*
       env:
         GITHUB_TOKEN: ${{ secrets.TOKEN }}
+# Testando trigger de tags
