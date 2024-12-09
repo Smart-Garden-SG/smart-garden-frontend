@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import axios from "axios";
 import { Area } from "@antv/g2plot";
 
@@ -10,7 +10,6 @@ import {
   faVial,
   faWater,
 } from "@fortawesome/free-solid-svg-icons";
-
 
 import TopBar from "../TopBar/TopBar";
 import Sidebar from "../SideBar/Sidebar";
@@ -30,15 +29,11 @@ function Dashboard() {
   const chartsConfig = [
     {
       title: "Temperatura (°C)",
-      metrics: [
-        { field: "Temperature", name: "Temperatura", color: "#e67e22" },
-      ],
+      metrics: [{ field: "Temperature", name: "Temperatura", color: "#e67e22" }],
     },
     {
       title: "Umidade (%)",
-      metrics: [
-        { field: "Humidity", name: "Umidade", color: "#2ecc71" },
-      ],
+      metrics: [{ field: "Humidity", name: "Umidade", color: "#2ecc71" }],
     },
     {
       title: "Níveis de Nitrogênio, Fósforo, Potássio (mg/kg)",
@@ -50,43 +45,37 @@ function Dashboard() {
     },
     {
       title: "pH",
-      metrics: [
-        { field: "pH", name: "pH", color: "#8e44ad" },
-      ],
+      metrics: [{ field: "pH", name: "pH", color: "#8e44ad" }],
     },
     {
       title: "Condutividade (µS/cm)",
-      metrics: [
-        { field: "Conductivity", name: "Condutividade", color: "#34495e" },
-      ],
+      metrics: [{ field: "Conductivity", name: "Condutividade", color: "#34495e" }],
     },
     {
       title: "Salinidade (mg/L)",
-      metrics: [
-        { field: "Salinity", name: "Salinidade", color: "#f39c12" },
-      ],
+      metrics: [{ field: "Salinity", name: "Salinidade", color: "#f39c12" }],
     },
   ];
 
   const chartRefs = useRef([]);
   const chartInstances = useRef([]);
 
-  const fetchData = async (deviceId) => {
+  const fetchData = useCallback(async (deviceId) => {
     try {
       setLoading(true);
       setError(null);
-  
+
       const params = {
         deviceId: deviceId,
         startDate: startDate ? new Date(`${startDate}T00:00:00`).getTime() : undefined,
         endDate: endDate ? new Date(`${endDate}T23:59:59`).getTime() : undefined,
       };
-  
+
       const [dashboardResponse, historyResponse] = await Promise.all([
         axios.get("http://localhost:3001/dashboard", { params }),
         axios.get("http://localhost:3001/measures/history", { params }),
       ]);
-  
+
       if (dashboardResponse.data.success && historyResponse.data.success) {
         setSensorsData(dashboardResponse.data.data);
         setHistoryData(historyResponse.data.data);
@@ -104,19 +93,9 @@ function Dashboard() {
     } finally {
       setLoading(false);
     }
-  };
-  
+  }, [startDate, endDate]);
 
-  const getMinMax = (data) => {
-    const values = data.map((item) => item.value);
-    return {
-      min: Math.min(...values),
-      max: Math.max(...values),
-    };
-  };
-
-  const initializeCharts = () => {
-    // Destruir instâncias anteriores
+  const initializeCharts = useCallback(() => {
     chartInstances.current.forEach((instance) => {
       if (instance) instance.destroy();
     });
@@ -126,27 +105,23 @@ function Dashboard() {
       const container = chartRefs.current[index];
       if (!container) return;
 
-      const moment = require('moment-timezone');
+      const moment = require("moment-timezone");
 
-      const chartData = chartConfig.metrics.flatMap((metric) => {
-        return historyData.map((item) => {
-          // Converta o timestamp para milissegundos, se necessário
+      const chartData = chartConfig.metrics.flatMap((metric) =>
+        historyData.map((item) => {
           const timestampMs = item.created_at_mili;
           const localCreatedAt = moment(timestampMs).tz("America/Sao_Paulo");
-          
+
           return {
-            // Retorna como Date, que inclui data e hora
-            date: localCreatedAt.toDate(), 
+            date: localCreatedAt.toDate(),
             value: item[metric.field],
             type: metric.name,
           };
-        });
-      });
-      
-    
+        })
+      );
+
       if (chartData.length === 0) return;
 
-      // Agora no G2Plot, ao configurar o eixo X e o tooltip:
       const area = new Area(container, {
         data: chartData,
         xField: "date",
@@ -156,15 +131,9 @@ function Dashboard() {
         xAxis: {
           type: "time",
           label: {
-            formatter: (value) => {
-              const date = moment(value).tz("America/Sao_Paulo");
-              // Ajuste o formato para incluir dia, mês, ano, hora e minuto
-              return date.format("DD/MM/YYYY");
-            },
+            formatter: (value) => moment(value).tz("America/Sao_Paulo").format("DD/MM/YYYY"),
           },
         },
-        
-        
         yAxis: {
           label: {
             formatter: (text) => `${Math.round(text)}`,
@@ -173,24 +142,13 @@ function Dashboard() {
         tooltip: {
           shared: true,
           customContent: (title, items) => {
-            // Agora 'title' deve ser um Date object
-            const date = moment(title).tz("America/Sao_Paulo");
-            const formattedDate = date.format("DD/MM/YYYY");
-        
+            const date = moment(title).tz("America/Sao_Paulo").format("DD/MM/YYYY");
             const tooltipItems = items
-              .map(
-                (item) =>
-                  `<span style="color:${item.color}">●</span> ${item.name}: ${item.value}<br/>`
-              )
+              .map((item) => `<span style="color:${item.color}">●</span> ${item.name}: ${item.value}<br/>`)
               .join("");
-        
-            return `<div style="padding:10px">
-                      <strong>${formattedDate}</strong><br/>
-                      ${tooltipItems}
-                    </div>`;
+            return `<div style="padding:10px"><strong>${date}</strong><br/>${tooltipItems}</div>`;
           },
         },
-        
         animation: true,
         smooth: true,
       });
@@ -198,7 +156,7 @@ function Dashboard() {
       area.render();
       chartInstances.current[index] = area;
     });
-  };
+  }, [chartsConfig, historyData]);
 
   useEffect(() => {
     const fetchDevices = async () => {
@@ -220,13 +178,13 @@ function Dashboard() {
     };
     fetchDevices();
   }, []);
-  
+
   useEffect(() => {
     if (selectedDevice) {
       fetchData(selectedDevice);
     }
-  }, [selectedDevice, startDate, endDate]);
-  
+  }, [selectedDevice, startDate, endDate, fetchData]);
+
   useEffect(() => {
     if (historyData.length > 0) {
       initializeCharts();
@@ -237,23 +195,14 @@ function Dashboard() {
       });
       chartInstances.current = [];
     };
-  }, [historyData]);
-  
+  }, [historyData, initializeCharts]);
 
   if (loading) {
-    return (
-      <div className="loading">
-        <p>Carregando dados...</p>
-      </div>
-    );
+    return <div className="loading"><p>Carregando dados...</p></div>;
   }
 
   if (error) {
-    return (
-      <div className="error">
-        <p>{error}</p>
-      </div>
-    );
+    return <div className="error"><p>{error}</p></div>;
   }
 
   return (
