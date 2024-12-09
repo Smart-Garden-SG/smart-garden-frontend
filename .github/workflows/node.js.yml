@@ -3,7 +3,8 @@ name: React CI
 on:
   push:
     branches: [ "main" ]
-    tags: [ "*" ]
+    tags:
+      - '**'
   pull_request:
     branches: [ "main" ]
     
