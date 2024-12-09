@@ -38,6 +38,9 @@ jobs:
           name: react-app-build
           path: build/
 
+      - name: Compactar o build
+        run: zip -r build.zip build/
+
       - name: Debug github.ref
         run: echo "github.ref = ${{ github.ref }}"
 
