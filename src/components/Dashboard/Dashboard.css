@@ -1,0 +1,343 @@
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.stat-card {
+  position: relative;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+}
+
+.stat-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.stat-value {
+  font-size: 26px;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Charts */
+.charts-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Exatamente 3 colunas por linha */
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.chart-container {
+  position: relative;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.chart-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.chart {
+  width: 100%;
+  height: 300px;
+}
+
+.time-ago {
+  font-size: 0.9em;
+  color: #888;
+  margin-top: 4px;
+  display: block;
+  text-align: right;
+}
+
+.last-updated {
+  display: inline-block;
+  background-color: #f8f9fa;
+  color: #666;
+  padding: 5px 10px;
+  font-size: 0.85em;
+  border-radius: 8px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+/* Form Inputs */
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.date-input,
+.filter-button,
+.device-dropdown2 {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 16px;
+  color: #333;
+  width: 100%;
+  max-width: 300px;
+  margin: 10px 0;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.date-input:focus,
+.filter-button:focus,
+.device-dropdown2:focus {
+  border-color: #4f7335;
+  box-shadow: 0 0 6px rgba(52, 152, 219, 0.4);
+}
+
+.filter-button {
+  cursor: pointer;
+  background-color: #4f7335;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.filter-button:hover {
+  background-color: #659940;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.device-label {
+  font-weight: bold;
+  margin-right: 10px;
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+.device-selector {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+/* Títulos e Seções */
+.title-divisor {
+  border: 0;
+  border-top: 1px solid #ddd;
+  margin: 20px 0;
+}
+
+.section-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Responsividade */
+@media (max-width: 992px) {
+  .charts-grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 colunas por linha para telas médias */
+  }
+}
+
+@media (max-width: 768px) {
+  .stats-grid {
+    grid-template-columns: 1fr; /* Colunas únicas para telas menores */
+  }
+
+  .charts-grid {
+    grid-template-columns: 1fr; /* Gráficos em uma coluna */
+  }
+
+  .date-input,
+  .filter-button,
+  .device-dropdown2 {
+    max-width: 100%;
+  }
+
+  .filter-button {
+    text-align: center;
+  }
+
+  .form-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* Geral */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.filter-container {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.device-selector,
+.date-input-container,
+.filter-button-container {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.date-filter {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.filter-button {
+  align-self: flex-start;
+  margin-top: 10%;
+}
+
+.filter-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.stat-values {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.stat-value {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Cores específicas para os valores */
+.temperature-value {
+  color: #e67e22; /* Laranja para Temperatura */
+}
+
+.humidity-value {
+  color: #2ecc71; /* Verde para Umidade */
+}
+
+.ph-value {
+  color: #8e44ad; /* Roxo para pH */
+}
+
+.salinity-value {
+  color: #f39c12; /* Amarelo para Salinidade */
+}
+
+
+/* Seleciona o path dentro do SVG do ícone */
+.stat-title .stat-icon svg path {
+  fill: #8e44ad; /* Roxo para pH */
+}
+
+/* NPK Card */
+.npk-card {
+  text-align: center;
+}
+
+.npk-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 5px 0;
+}
+
+.npk-label {
+  font-size: 16px;
+  font-weight: bold;
+  color: #555;
+}
+
+.npk-value {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+/* Cor dinâmica para cada nutriente */
+.npk-item:nth-child(1) .npk-label,
+.npk-item:nth-child(1) .npk-value,
+.npk-item:nth-child(1) .npk-title {
+  color: #e74c3c; /* Vermelho para Nitrogênio */
+}
+
+.npk-item:nth-child(2) .npk-label,
+.npk-item:nth-child(2) .npk-value,
+.npk-item:nth-child(2) .npk-title {
+  color: #2980b9; /* Azul para Fósforo */
+}
+
+.npk-item:nth-child(3) .npk-label,
+.npk-item:nth-child(3) .npk-value,
+.npk-item:nth-child(3) .npk-title {
+  color: #27ae60; /* Verde para Potássio */
+}
+
+
+/* Cores para as letras N, P e K no título */
+.npk-title .nitrogen {
+  color: #e74c3c; /* Vermelho para Nitrogênio */
+}
+
+.npk-title .phosphorus {
+  color: #2980b9; /* Azul para Fósforo */
+}
+
+.npk-title .potassium {
+  color: #27ae60; /* Verde para Potássio */
+}
+
+.npk-title {
+  display: flex;
+  align-items: center;
+  gap: 5px; /* Espaço entre as letras */
+}
+
+.stat-icon{
+  margin-right: 10px;
+}

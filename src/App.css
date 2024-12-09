@@ -1,0 +1,166 @@
+/* src/App.css */
+
+/* Estilos Globais */
+:root {
+    --primary-color: #2c3e50;
+    --secondary-color: #ecf0f1;
+    --accent-color: #e74c3c;
+    --text-color: #34495e;
+    --bg-color: #f5f6fa;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --card-width: 800px;
+    --card-padding: 20px; 
+  }
+  
+
+  
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--bg-color);
+    margin: 0;
+    padding: 0;
+  }
+  
+  .half {
+    display: flex;
+    min-height: 100vh;
+  }
+  
+  .contents {
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .bg {
+    background-size: cover;
+    background-position: center;
+    position: relative;
+  }
+  
+  .container {
+    max-width: 100%;
+    padding-left: 0px;
+  }
+  
+  .image-logo {
+    width: 85% !important;
+    object-fit: fill;
+    height: 100% !important;
+  }
+  
+  /* Estilos para os Formulários */
+  .input-group-text {
+    background: #fff;
+    border-right: 0;
+  }
+  
+  .form-control {
+    border-left: 0;
+  }
+  
+  .form-group .btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+  }
+  
+  .btn-link {
+    color: var(--primary-color);
+    text-decoration: none;
+  }
+  
+  .btn-link:hover {
+    text-decoration: underline;
+  }
+  
+  .text-primary {
+    color: var(--primary-color) !important;
+  }
+  
+  .toggle {
+    background: none;
+    border: none;
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    color: #ccc;
+  }
+  
+  .toggle:focus {
+    outline: none;
+  }
+  
+  .toggle .fa {
+    font-size: 18px;
+  }
+  
+  /* Mensagens de Erro e Sucesso */
+  #loginResponseError,
+  #registerResponseError,
+  #forgotResponseSuccess,
+  #resetResponseError {
+    font-size: 14px;
+    display: none;
+  }
+  
+  #loginResponseError span,
+  #registerResponseError span,
+  #forgotResponseSuccess span,
+  #resetResponseError span {
+    display: flex;
+    align-items: center;
+  }
+  
+  #loginResponseError i,
+  #registerResponseError i,
+  #forgotResponseSuccess i,
+  #resetResponseError i {
+    margin-right: 10px;
+  }
+  
+  /* Estilos para o Lado Direito */
+  .content-left-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    color: #fff;
+    padding-left: 2rem;
+  }
+  
+  #dsd-heading {
+    color: #fff;
+    font-size: 2.5rem;
+  }
+  
+  #dsd-description {
+    color: #E1E1E1;
+    font-size: 1.2rem;
+    line-height: 1.5;
+    width: 80%;
+    word-break: break-word;
+  }
+  
+  /* Responsividade */
+  @media (max-width: 992px) {
+    .half {
+      flex-direction: column-reverse;
+    }
+  
+    .contents,
+    .bg {
+      width: 100% !important;
+      height: auto;
+    }
+  
+    .content-left-wrapper {
+      padding-left: 1rem;
+      text-align: center;
+      justify-content: center;
+    }
+  
+    #dsd-description {
+      width: 100%;
+    }
+  }
+  

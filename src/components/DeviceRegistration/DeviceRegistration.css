@@ -1,0 +1,62 @@
+.custom-table {
+  border: 0px solid #fff;
+  border-bottom: 1px solid #c1c1c1;
+}
+
+
+.custom-btn-primary {
+  background-color: #4f7335;
+  border-color: #4f7335;
+  color: white;
+}
+
+.custom-btn-primary:hover {
+  background-color: #659940;
+  border-color: #659940;
+}
+
+.custom-btn-secondary {
+  background-color: #f44336;
+  border-color: #f44336;
+  color: white;
+}
+
+.custom-btn-secondary:hover {
+  background-color: #d32f2f;
+  border-color: #d32f2f;
+}
+
+.card{
+  border: 0px solid #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  
+}
+
+.form-label {
+  font-weight: bold;
+  color: #555;
+}
+
+.form-control {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  border-left: 1px !important;
+  margin-left: -1px !important;
+}
+
+.modal .form-group .form-control {
+  border-radius: 4px !important;
+  border-left: 1px solid #ced4da !important;
+}
+
+.modal .input-group .toggle {
+  margin-left: -1px !important;
+}

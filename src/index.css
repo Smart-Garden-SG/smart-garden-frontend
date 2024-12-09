@@ -1,0 +1,13 @@
+/* index.css ou App.css */
+
+/* Garante que o layout ocupe 100% da altura e largura da viewport */
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  height: 100%;
+}
