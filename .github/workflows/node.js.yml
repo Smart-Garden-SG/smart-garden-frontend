@@ -32,14 +32,20 @@ jobs:
       - name: Fazer build do projeto
         run: npm run build
 
-      - name: Upload do build como artefato
-        uses: actions/upload-artifact@v4
-        with:
-          name: react-app-build
-          path: build/
+      - name: Listar arquivos após o build
+        run: ls -la
+
+      - name: Listar conteúdo da pasta build
+        run: ls -la build/
+
+      - name: Verificar diretório atual
+        run: pwd
 
       - name: Compactar o build
         run: zip -r build.zip build/
+
+      - name: Listar arquivos após compactar o build
+        run: ls -la
 
       - name: Debug github.ref
         run: echo "github.ref = ${{ github.ref }}"
