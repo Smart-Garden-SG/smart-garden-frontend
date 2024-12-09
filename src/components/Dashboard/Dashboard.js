@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import axios from "axios";
 import { Area } from "@antv/g2plot";
 
@@ -26,7 +26,11 @@ function Dashboard() {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
 
-  const chartsConfig = [
+  
+
+// Memorize chartsConfig com useMemo
+const chartsConfig = useMemo(
+  () => [
     {
       title: "Temperatura (°C)",
       metrics: [{ field: "Temperature", name: "Temperatura", color: "#e67e22" }],
@@ -55,7 +59,10 @@ function Dashboard() {
       title: "Salinidade (mg/L)",
       metrics: [{ field: "Salinity", name: "Salinidade", color: "#f39c12" }],
     },
-  ];
+  ],
+  []
+);
+
 
   const chartRefs = useRef([]);
   const chartInstances = useRef([]);
@@ -64,26 +71,26 @@ function Dashboard() {
     try {
       setLoading(true);
       setError(null);
-
+  
       const params = {
         deviceId: deviceId,
         startDate: startDate ? new Date(`${startDate}T00:00:00`).getTime() : undefined,
         endDate: endDate ? new Date(`${endDate}T23:59:59`).getTime() : undefined,
       };
-
+  
       const [dashboardResponse, historyResponse] = await Promise.all([
         axios.get("http://localhost:3001/dashboard", { params }),
         axios.get("http://localhost:3001/measures/history", { params }),
       ]);
-
+  
       if (dashboardResponse.data.success && historyResponse.data.success) {
         setSensorsData(dashboardResponse.data.data);
         setHistoryData(historyResponse.data.data);
-        setLastUpdated(new Date());
+        setLastUpdated(new Date()); // Mantido aqui
       } else {
         setSensorsData({});
         setHistoryData([]);
-        setLastUpdated(new Date());
+        setLastUpdated(new Date()); // Mantido aqui
       }
     } catch (err) {
       console.error(err);
@@ -93,7 +100,8 @@ function Dashboard() {
     } finally {
       setLoading(false);
     }
-  }, [startDate, endDate]);
+  }, [startDate, endDate, setLastUpdated]);
+  
 
   const initializeCharts = useCallback(() => {
     chartInstances.current.forEach((instance) => {
