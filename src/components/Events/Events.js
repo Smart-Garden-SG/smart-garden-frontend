@@ -7,7 +7,7 @@ import './Events.css';
 function Events() {
   const [events, setEvents] = useState([]);
   const [filteredEvents, setFilteredEvents] = useState([]);
-  const [predictedFertilizer, setPredictedFertilizer] = useState(null);
+  const [setPredictedFertilizer] = useState(null);
   const [devices, setDevices] = useState([]);
   const [selectedDevice, setSelectedDevice] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');

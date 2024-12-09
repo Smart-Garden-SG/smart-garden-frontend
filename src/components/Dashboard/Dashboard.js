@@ -9,19 +9,17 @@ import {
   faFlask,
   faVial,
   faWater,
-  faMagnifyingGlassChart,
 } from "@fortawesome/free-solid-svg-icons";
 
 
 import TopBar from "../TopBar/TopBar";
 import Sidebar from "../SideBar/Sidebar";
-import moment from "moment";
 import "./Dashboard.css";
 
 function Dashboard() {
   const [sensorsData, setSensorsData] = useState(null);
   const [historyData, setHistoryData] = useState([]);
-  const [lastUpdated, setLastUpdated] = useState(new Date());
+  const [setLastUpdated] = useState(new Date());
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [devices, setDevices] = useState([]);
@@ -147,8 +145,6 @@ function Dashboard() {
       
     
       if (chartData.length === 0) return;
-
-      const { min, max } = getMinMax(chartData);
 
       // Agora no G2Plot, ao configurar o eixo X e o tooltip:
       const area = new Area(container, {
