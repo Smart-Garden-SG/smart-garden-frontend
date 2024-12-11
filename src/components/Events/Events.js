@@ -65,7 +65,7 @@ function Events() {
   const fetchPrediction = useCallback(async () => {
     try {
       const response = await axios.post(
-        'http://localhost:8000/predict?api_key=6d2a222c0a4cb9354b52687ceb0ddf1f'
+        'http://localhost:8000/predict'
       );
       setPredictedFertilizer(response.data);
     } catch (error) {
