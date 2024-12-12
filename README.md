@@ -20,7 +20,7 @@ Bem-vindo ao **Smart-Garden Frontend**! Esta aplicação ajuda a monitorar e ger
 - ⚛️ **React**: Para o desenvolvimento do front-end.
 - 🚀 **Node.js & Express**: APIs do back-end.
 - 📊 **G2Plot**: Para gráficos interativos.
-- 🗄️ **MongoDB**: Banco de dados para armazenar as medições e eventos.
+- 🗄️ **MySQL**: Banco de dados para armazenar as medições e eventos.
 
 ---
 
