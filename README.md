@@ -48,7 +48,7 @@ Bem-vindo ao **Smart-Garden Frontend**! Esta aplicação ajuda a monitorar e ger
 
 ## 📸 Capturas de Tela
 
-![Dashboard](public/logo-final.png)
+![Dashboard](public/dashboard.png)
 
 ---
 
